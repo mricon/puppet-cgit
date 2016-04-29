@@ -1,0 +1,6 @@
+fixtures:
+  # use the forge modules so we can easily pin to a specific version
+  forge_modules:
+    stdlib: "puppetlabs/stdlib"
+  symlinks:
+    cgit: "#{source_dir}"

@@ -1,0 +1,237 @@
+# MANAGED BY PUPPET
+root-title=<%= @root_title %>
+root-desc=<%= @root_desc %>
+clone-prefix=<%= @clone_prefix.flatten.join(' ') %>
+<%# Not sure if both clone-url and clone-prefix should be allowed -%>
+<%# but there is no guidance on this in cgitrc. We put it after   -%>
+<%# clone-prefix just in case both are specified.                 -%>
+<% if @clone_url -%>
+clone-url=<%= @clone_url.flatten.join(' ') %>
+<% end -%>
+css=<%= @css %>
+logo=<%= @logo %>
+cache-root=<%= @cache_root %>
+cache-size=<%= @cache_size %>
+<% if @favicon -%>
+favicon=<%= @favicon %>
+<% end -%>
+<% if @logo_link -%>
+logo-link=<%= @logo_link %>
+<% end -%>
+
+# A lot of options need to be defined before scan-path in order to work
+# See man cgitrc for more info
+<% if @project_list -%>
+project-list=<%= @project_list %>
+<% end -%>
+<% if defined? @remove_suffix -%>
+remove-suffix=<%= @remove_suffix ? 1 : 0 %>
+<% end -%>
+<% if defined? @scan_hidden_path -%>
+scan-hidden-path=<%= @scan_hidden_path ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_git_config -%>
+enable-git-config=<%= @enable_git_config ? 1 : 0 %>
+<% end -%>
+<% if @section_from_path -%>
+section-from-path=<%= @section_from_path %>
+<% end -%>
+<% if @strict_export -%>
+strict-export=<%= @strict_export %>
+<% end -%>
+<% if @merged_readme -%>
+<%- @merged_readme.each do |rvalue| -%>
+readme=<%= rvalue %>
+<% end -%>
+<% end -%>
+scan-path=<%= @scan_path %>
+
+# Options below do not need to come before scan-path
+<% if @virtual_root -%>
+virtual-root=<%= @virtual_root %>
+<% end -%>
+<% if @agefile -%>
+agefile=<%= @agefile %>
+<% end -%>
+
+# Cache TTL options
+<% if @cache_static_ttl -%>
+cache-static-ttl=<%= @cache_static_ttl %>
+<% end -%>
+<% if @cache_dynamic_ttl -%>
+cache-dynamic-ttl=<%= @cache_dynamic_ttl %>
+<% end -%>
+<% if @cache_repo_ttl -%>
+cache-repo-ttl=<%= @cache_repo_ttl %>
+<% end -%>
+<% if @cache_root_ttl -%>
+cache-root-ttl=<%= @cache_root_ttl %>
+<% end -%>
+<% if @cache_scanrc_ttl -%>
+cache-scanrc-ttl=<%= @cache_scanrc_ttl %>
+<% end -%>
+<% if @cache_about_ttl -%>
+cache-about-ttl=<%= @cache_about_ttl %>
+<% end -%>
+<% if @cache_snapshot_ttl -%>
+cache-snapshot-ttl=<%= @cache_snapshot_ttl %>
+<% end -%>
+
+# Sorting options (if any)
+<% if @branch_sort -%>
+branch-sort=<%= @branch_sort %>
+<% end -%>
+<% if @case_sensitive_sort -%>
+case-sensitive-sort=1
+<% end -%>
+<% if @commit_sort -%>
+commit-sort=<%= @commit_sort %>
+<% end -%>
+<% if @repository_sort -%>
+repository-sort=<%= @repository_sort %>
+<% end -%>
+<% if @section_sort -%>
+section-sort=1
+<% end -%>
+
+# Filters (if any)
+<% if @about_filter -%>
+about-filter=<%= @about_filter %>
+<% end -%>
+<% if @auth_filter -%>
+auth-filter=<%= @auth_filter %>
+<% end -%>
+<% if @commit_filter -%>
+commit-filter=<%= @commit_filter %>
+<% end -%>
+<% if @email_filter -%>
+email-filter=<%= @email_filter %>
+<% end -%>
+<% if @owner_filter -%>
+owner-filter=<%= @owner_filter %>
+<% end -%>
+<% if @source_filter -%>
+source-filter=<%= @source_filter %>
+<% end -%>
+
+# Tweaks to repository view outputs (if any)
+<% if defined? @enable_commit_graph -%>
+enable-commit-graph=<%= @enable_commit_graph ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_filter_overrides -%>
+enable-filter-overrides=<%= @enable_filter_overrides ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_follow_links -%>
+enable-follow-links=<%= @enable_follow_links ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_http_clone -%>
+enable-http-clone=<%= @enable_http_clone ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_index_links -%>
+enable-index-links=<%= @enable_index_links ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_index_owner -%>
+enable-index-owner=<%= @enable_index_owner ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_log_filecount -%>
+enable-log-filecount=<%= @enable_log_filecount ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_log_linecount -%>
+enable-log-linecount=<%= @enable_log_linecount ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_remote_branches -%>
+enable-remote-branches=<%= @enable_remote_branches ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_subject_links -%>
+enable-subject-links=<%= @enable_subject_links ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_html_serving -%>
+enable-html-serving=<%= @enable_html_serving ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_tree_linenumbers -%>
+enable-tree-linenumbers=<%= @enable_tree_linenumbers ? 1 : 0 %>
+<% end -%>
+<% if defined? @side_by_side_diffs -%>
+side-by-side-diffs=<%= @side_by_side_diffs ? 1 : 0 %>
+<% end -%>
+<% if defined? @local_time -%>
+local-time=<%= @local_time ? 1 : 0 %>
+<% end -%>
+<% if @max_commit_count -%>
+max-commit-count=<%= @max_commit_count %>
+<% end -%>
+<% if @max_message_length -%>
+max-message-length=<%= @max_message_length %>
+<% end -%>
+<% if @max_repo_count -%>
+max-repo-count=<%= @max_repo_count %>
+<% end -%>
+<% if @max_repodesc_length -%>
+max-repodesc-length=<%= @max_repodesc_length %>
+<% end -%>
+<% if @max_blob_size -%>
+max-blob-size=<%= @max_blob_size %>
+<% end -%>
+<% if @max_stats -%>
+max-stats=<%= @max_stats %>
+<% end -%>
+<% if @renamelimit -%>
+renamelimit=<%= @renamelimit %>
+<% end -%>
+<% if @summary_branches -%>
+summary-branches=<%= @summary_branches %>
+<% end -%>
+<% if @summary_log -%>
+summary-log=<%= @summary_log %>
+<% end -%>
+<% if @summary_tags -%>
+summary-tags=<%= @summary_tags %>
+<% end -%>
+
+# Tweaks to cgit html output (if any)
+<% if @header -%>
+header=<%= @header %>
+<% end -%>
+<% if @head_include -%>
+head-include=<%= @head_include %>
+<% end -%>
+<% if @footer -%>
+footer=<%= @footer %>
+<% end -%>
+<% if @root_readme -%>
+root-readme=<%= @root_readme %>
+<% end -%>
+<% if defined? @embedded -%>
+embedded=<%= @embedded ? 1 : 0 %>
+<% end -%>
+<% if defined? @noheader -%>
+noheader=<%= @noheader ? 1 : 0 %>
+<% end -%>
+<% if defined? @noplainemail -%>
+noplainemail=<%= @noplainemail ? 1 : 0 %>
+<% end -%>
+<% if @snapshots -%>
+snapshots=<%= @snapshots.flatten.join(' ') %>
+<% end -%>
+<% if @module_link -%>
+module-link=<%= @module_link %>
+<% end -%>
+<% if @max_atom_items -%>
+max-atom-items=<%= @max_atom_items %>
+<% end -%>
+<% if @robots -%>
+robots=<%= @robots %>
+<% end -%>
+<% if @mimetypes_file -%>
+mimetypes-file=<%= @mimetypes_file %>
+<% end -%>
+<% if @merged_mimetypes -%>
+<% @merged_mimetypes.keys.sort.each do |filext| -%>
+mimetype.<%= filext %>=<%= @merged_mimetypes[filext] %>
+<% end -%>
+<% end -%>
+<%# Lets you include any additional cgitrc fragments -%>
+<% if @include -%>
+
+include=<%= @include %>
+<% end -%>
