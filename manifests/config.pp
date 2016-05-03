@@ -61,7 +61,7 @@ class cgit::config (
   Optional[String]              $about_filter  = undef,
   Optional[String]              $auth_filter   = undef,
   Optional[String]              $commit_filter = undef,
-  Optional[String]              $email_filer   = undef,
+  Optional[String]              $email_filter   = undef,
   Optional[String]              $owner_filter  = undef,
   Optional[String]              $source_filter = undef,
 
@@ -171,6 +171,16 @@ class cgit::config (
       mode     => '0644',
       content  => template('cgit/cgitrc.erb'),
       checksum => 'md5',
+    }
+    if $skindir_src != $skindir {
+      file { $skindir:
+        ensure  => 'directory',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        source  => $skindir_src,
+        recurse => true,
+      }
     }
   }
 

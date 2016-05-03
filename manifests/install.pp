@@ -45,18 +45,5 @@ class cgit::install {
       group  => 'root',
       mode   => '0755',
     }
-
-  } else {
-
-    if $cgit::skindir_src != $cgit::skindir {
-      file { $cgit::skindir:
-        ensure  => 'directory',
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',
-        source  => $cgit::skindir_src,
-        recurse => true,
-      }
-    }
   }
 }
