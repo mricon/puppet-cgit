@@ -28,7 +28,7 @@ class cgit::params {
   $cachedir_group      = 'root'
   $cachedir_mode       = '0755'
 
-  $use_virtual_sites   = true
+  $use_virtual_sites   = false
   $sites_configdir     = '/etc/cgitrc.d'
   $sites_skindir       = '/var/www/html/cgit'
 }

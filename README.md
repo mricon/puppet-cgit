@@ -2,82 +2,208 @@
 
 #### Table of Contents
 
-1. [Description](#description)
-1. [Setup - The basics of getting started with cgit](#setup)
-    * [What cgit affects](#what-cgit-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with cgit](#beginning-with-cgit)
+1. [Overview](#overview)
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Development - Guide for contributing to the module](#development)
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS/Puppet version it works with.
+[![Build Status](https://travis-ci.org/mricon/puppet-cgit.png)](https://travis-ci.org/mricon/puppet-cgit)
 
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
-
-## Setup
-
-### What cgit affects **OPTIONAL**
-
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
-
-If there's more that they should know about, though, this is the place to mention:
-
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
-
-### Beginning with cgit
-
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
+This module configures cgit. At this time, it leaves out
+nginx/apache/whathaveyou configuration up to some other module, and will add
+this step as optional in the future. There are just too many ways to serve
+cgit (basic apache cgit, fastcgi, spawn-fcgi with nginx, lighttpd, etc), so
+this module concentrates on setting up just the basic config to the point
+where you can then configure the serving part on your own.
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
+To use this module you can either directly include it in your module
+tree, or add the following to your `Puppetfile`:
+
+```
+  mod 'mricon-cgit'
+```
+
+A node should then be assigned the relevant cgit classes.
+
+There are two basic ways to use the module -- with or without virtual hosting.
+When used in a default configuration without virtual hosting, the module
+tracks and configures `/etc/cgitrc`. The most basic configuration with sane
+defaults is:
+
+```puppet
+   class { 'cgit':
+     reposdir => '/path/to/your/repos'
+   }
+```
+
+This will configure the cache location to be owned by user `apache`, so if you
+are running with some other webserver, make sure you tweak `cachedir_owner`,
+e.g. for nginx:
+
+```puppet
+   class { 'cgit':
+     reposdir       => '/path/to/your/repos',
+     cachedir_owner => 'nginx',
+   }
+```
+
+If you're using Hiera, the same configuration might look like:
+
+```yaml
+   cgit::reposdir: '/path/to/your/repos'
+   cgit::cachedir_owner: 'nginx'
+```
+
+### Virtual sites
+
+If you are hosting multiple repo collections on the same server, this module
+supports basic virtual hosting. For example, if you have
+`/var/lib/git/git.kernel.org` and `/var/lib/git/git.opnfv.org` directories
+full of project-specific repos, you will want to configure things as follows:
+
+```puppet
+   class { 'cgit':
+     reposdir           => '/var/lib/git',
+     use_virtual_sites  => true,
+     config             => {
+       virtual_root      => '/',
+       enable_git_config => true,
+     }
+     sites              => {
+       'git.kernel.org' => {
+         ensure            => 'present',
+         skindir_src       => 'puppet:///modules/cgit/git.kernel.org',
+         section_from_path => 1,
+       }
+       'git.opnfv.org'  => {
+         ensure         => 'present',
+         skindir_src    => 'puppet:///modules/cgit/git.opnfv.org',
+       }
+     }
+   }
+```
+
+This will create `/etc/cgitrc` with the following content:
+
+```
+include=/etc/cgitrc.d/$HTTP_HOST
+```
+
+Then each defined site will have an entry in `/etc/cgitrc.d`:
+
+* `/etc/cgitrc.d/git.kernel.org`
+* `/etc/cgitrc.d/git.opnfv.org`
+
+The same configuration in hiera would look like this:
+
+```yaml
+   cgit::reposdir: '/var/lib/git'
+   cgit::use_virtual_sites: true
+   cgit::config::virtual_root: '/'
+   cgit::config::enable_git_config: true
+   cgit::sites:
+     'git.kernel.org':
+       ensure: 'present'
+       skindir_src: 'puppet:///modules/cgit/git.kernel.org'
+       section_from_path: 1
+     'git.opnfv.org':
+       ensure: 'present'
+       skindir_src: 'puppet:///modules/cgit/git.opnfv.org'
+```
+
+Anything you define as part of global cgit=>config will be inherited by each
+defined site, but you can override any part of it by defining a separate
+site-specific config value.
 
 ## Reference
 
-Here, include a complete list of your module's classes, types, providers,
-facts, along with the parameters for each. Users refer to this section (thus
-the name "Reference") to find specific details; most users don't read it per
-se.
+### cgit
+
+#### `manage_package`
+
+Whether to manage the package installation or not.
+
+Default: `true`
+
+#### `package_name`
+
+The name of the package to install.
+
+Default: `cgit`
+
+#### `package_ensure`
+
+Whether to install or remove the package (e.g. if you're installing cgit via
+some other way).
+
+Default: `present`
+
+#### `configfile`
+
+Global cgit config file.
+
+Default: `/etc/cgitrc`
+
+#### `reposdir`
+
+Where your repositories live.
+
+Default: `/var/lib/git`
+
+#### `cachedir`
+
+Where to put cgit cache.
+
+Default: `/var/cache/cgit`
+
+#### `cachedir_owner`, `cachedir_group`, `cachedir_mode`
+
+Who should own the cache directory, and what its mode should be
+
+Defaults: `apache`, `root`, `0755`
+
+#### `use_virtual_sites`
+
+Whether to use a global configuration or set up virtual sites.
+
+Default: `false`
+
+#### `sites_configdir`
+
+Where to put site-specific configuration files.
+
+Default: `/etc/cgitrc.d`
+
+#### `sites_skindir`
+
+Where to put site-specific skin files (css, logo, favicon, etc). You would
+usually then specify a site-specific `skindir_src` that would point at a
+location in puppet from where to recursively copy these objects. You will need
+to configure your httpd virtual host so that `$skindir_src/git.example.com` is
+aliased to `/cgit-data` for that site.
+
+When `skindir_src` is not specified, the module will copy the default
+`/usr/share/cgit` skin in place.
+
+Default: `/var/www/html/cgit`
+
+### config
+
+Values here are one-to-one mapping to cgit configuration parameters, with all
+dashes changed to underscores. E.g. a cgit configuration parameter
+`section-from-path` will become `section_from_path`.
+
+There are too many configuration parameters here to bother listing them all,
+so your best bet is looking at the config.pp file.
+
+All configuration in the config class is inherited by each defined virtual
+site, if you're using them. You can override each global configuration entry
+by setting a separate site-specific config value.
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there
-are Known Issues, you might want to include them under their own heading here.
-
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel
-are necessary or important to include here. Please use the `## ` header.
+Tested on RHEL 6/7 and CentOS 6/7. Not tested anywhere else. :)

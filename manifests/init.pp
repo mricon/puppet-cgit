@@ -1,46 +1,22 @@
-# Class: cgit
-# ===========================
+# == Class: cgit
 #
-# Full description of class cgit here.
+# Cgit configuration and managent module
 #
-# Parameters
-# ----------
+# == Parameters
 #
-# Document parameters here.
+# See README.md
 #
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
+# === Authors
 #
-# Variables
-# ----------
+# Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 #
-# Here you should define a list of variables that this module would require.
+# === Copyright
 #
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
+# Copyright 2016 Konstantin Ryabitsev
 #
-# Examples
-# --------
+# === License
 #
-# @example
-#    class { 'cgit':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#    }
-#
-# Authors
-# -------
-#
-# Author Name <author@domain.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2016 Your name here, unless otherwise noted.
+# @License Apache-2.0 <http://spdx.org/licenses/Apache-2.0>
 #
 class cgit (
   Boolean               $manage_package      = $cgit::params::manage_package,

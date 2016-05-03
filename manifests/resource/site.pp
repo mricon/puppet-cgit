@@ -1,6 +1,6 @@
 # == Class: cgit::resource::site
 #
-# Config settings for cgitrc
+# Per-site config settings for cgitrc
 #
 # == Parameters
 #
