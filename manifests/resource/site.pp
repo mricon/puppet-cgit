@@ -61,7 +61,7 @@ define cgit::resource::site (
   Optional[String]              $about_filter  = $cgit::config::about_filter,
   Optional[String]              $auth_filter   = $cgit::config::auth_filter,
   Optional[String]              $commit_filter = $cgit::config::commit_filter,
-  Optional[String]              $email_filer   = $cgit::config::email_filter,
+  Optional[String]              $email_filter  = $cgit::config::email_filter,
   Optional[String]              $owner_filter  = $cgit::config::owner_filter,
   Optional[String]              $source_filter = $cgit::config::source_filter,
 

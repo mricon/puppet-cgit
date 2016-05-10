@@ -61,7 +61,7 @@ class cgit::config (
   Optional[String]              $about_filter  = undef,
   Optional[String]              $auth_filter   = undef,
   Optional[String]              $commit_filter = undef,
-  Optional[String]              $email_filter   = undef,
+  Optional[String]              $email_filter  = undef,
   Optional[String]              $owner_filter  = undef,
   Optional[String]              $source_filter = undef,
 
