@@ -21,6 +21,26 @@ logo-link=<%= @logo_link %>
 
 # A lot of options need to be defined before scan-path in order to work
 # See man cgitrc for more info
+# Filters (if any)
+<% if @about_filter -%>
+about-filter=<%= @about_filter %>
+<% end -%>
+<% if @auth_filter -%>
+auth-filter=<%= @auth_filter %>
+<% end -%>
+<% if @commit_filter -%>
+commit-filter=<%= @commit_filter %>
+<% end -%>
+<% if @email_filter -%>
+email-filter=<%= @email_filter %>
+<% end -%>
+<% if @owner_filter -%>
+owner-filter=<%= @owner_filter %>
+<% end -%>
+<% if @source_filter -%>
+source-filter=<%= @source_filter %>
+<% end -%>
+
 <% if @project_list -%>
 project-list=<%= @project_list %>
 <% end -%>
@@ -92,26 +112,6 @@ repository-sort=<%= @repository_sort %>
 <% end -%>
 <% if @section_sort -%>
 section-sort=1
-<% end -%>
-
-# Filters (if any)
-<% if @about_filter -%>
-about-filter=<%= @about_filter %>
-<% end -%>
-<% if @auth_filter -%>
-auth-filter=<%= @auth_filter %>
-<% end -%>
-<% if @commit_filter -%>
-commit-filter=<%= @commit_filter %>
-<% end -%>
-<% if @email_filter -%>
-email-filter=<%= @email_filter %>
-<% end -%>
-<% if @owner_filter -%>
-owner-filter=<%= @owner_filter %>
-<% end -%>
-<% if @source_filter -%>
-source-filter=<%= @source_filter %>
 <% end -%>
 
 # Tweaks to repository view outputs (if any)
