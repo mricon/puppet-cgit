@@ -19,7 +19,8 @@ favicon=<%= @favicon %>
 logo-link=<%= @logo_link %>
 <% end -%>
 
-# A lot of options need to be defined before scan-path in order to work
+# It is best to list all the options before scan-path, as some of them
+# are otherwise ignored if they are listed after.
 # See man cgitrc for more info
 # Filters (if any)
 <% if @about_filter -%>
@@ -41,32 +42,6 @@ owner-filter=<%= @owner_filter %>
 source-filter=<%= @source_filter %>
 <% end -%>
 
-<% if @project_list -%>
-project-list=<%= @project_list %>
-<% end -%>
-<% if defined? @remove_suffix -%>
-remove-suffix=<%= @remove_suffix ? 1 : 0 %>
-<% end -%>
-<% if defined? @scan_hidden_path -%>
-scan-hidden-path=<%= @scan_hidden_path ? 1 : 0 %>
-<% end -%>
-<% if defined? @enable_git_config -%>
-enable-git-config=<%= @enable_git_config ? 1 : 0 %>
-<% end -%>
-<% if @section_from_path -%>
-section-from-path=<%= @section_from_path %>
-<% end -%>
-<% if @strict_export -%>
-strict-export=<%= @strict_export %>
-<% end -%>
-<% if @merged_readme -%>
-<%- @merged_readme.each do |rvalue| -%>
-readme=<%= rvalue %>
-<% end -%>
-<% end -%>
-scan-path=<%= @scan_path %>
-
-# Options below do not need to come before scan-path
 <% if @virtual_root -%>
 virtual-root=<%= @virtual_root %>
 <% end -%>
@@ -235,3 +210,28 @@ mimetype.<%= filext %>=<%= @merged_mimetypes[filext] %>
 
 include=<%= @include %>
 <% end -%>
+
+<% if @project_list -%>
+project-list=<%= @project_list %>
+<% end -%>
+<% if defined? @remove_suffix -%>
+remove-suffix=<%= @remove_suffix ? 1 : 0 %>
+<% end -%>
+<% if defined? @scan_hidden_path -%>
+scan-hidden-path=<%= @scan_hidden_path ? 1 : 0 %>
+<% end -%>
+<% if defined? @enable_git_config -%>
+enable-git-config=<%= @enable_git_config ? 1 : 0 %>
+<% end -%>
+<% if @section_from_path -%>
+section-from-path=<%= @section_from_path %>
+<% end -%>
+<% if @strict_export -%>
+strict-export=<%= @strict_export %>
+<% end -%>
+<% if @merged_readme -%>
+<%- @merged_readme.each do |rvalue| -%>
+readme=<%= rvalue %>
+<% end -%>
+<% end -%>
+scan-path=<%= @scan_path %>
