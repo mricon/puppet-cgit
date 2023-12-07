@@ -28,6 +28,7 @@ class cgit::config (
   ],
 
   Pattern['^\/.*\.css$']        $css        = '/cgit-data/cgit.css',
+  Optional[Pattern['^\/.*\.js$']] $js       = undef,
   Pattern['^\/']                $logo       = '/cgit-data/cgit.png',
   String                        $root_desc  = 'A fast web interface to git',
   String                        $root_title = 'Git Repository Browser',

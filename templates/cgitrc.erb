@@ -9,6 +9,9 @@ clone-prefix=<%= @clone_prefix.flatten.join(' ') %>
 clone-url=<%= @clone_url.flatten.join(' ') %>
 <% end -%>
 css=<%= @css %>
+<% if @js -%>
+js=<%= @js %>
+<% end -%>
 logo=<%= @logo %>
 cache-root=<%= @cache_root %>
 cache-size=<%= @cache_size %>

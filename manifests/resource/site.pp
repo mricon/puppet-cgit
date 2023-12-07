@@ -28,6 +28,7 @@ define cgit::resource::site (
   ],
 
   Pattern['^\/.*\.css$']        $css        = $cgit::config::css,
+  Optional[Pattern['^\/.*\.js$']] $js       = $cgit::config::js,
   Pattern['^\/']                $logo       = $cgit::config::logo,
   String                        $root_desc  = $cgit::config::root_desc,
   String                        $root_title = $cgit::config::root_title,
